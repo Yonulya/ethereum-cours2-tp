@@ -62,6 +62,7 @@ App = {
             var h1 = document.createElement("h1");
             h1.innerHTML = `Board ${id}`;
             var table = document.createElement("table");
+            table.setAttribute("border",1);
 
             for(i=0 ; i<3 ; i++){
               var tr = document.createElement("tr");
@@ -69,6 +70,7 @@ App = {
               for(j=0 ; j<3 ; j++){
                 var td = document.createElement("td");
                 td.setAttribute("id", `col-${j}`);
+                td.setAttribute("onClick",App.handleSelectCell(i,j))
                 td.innerHTML = "."; 
                 tr.appendChild(td);
               }
@@ -98,7 +100,18 @@ App = {
 
   handleJoinGame: function () {
     //TODO L'opponent doit pouvoir faire joinGame en prenant les valeurs définies dans le html.
-  }
+    
+    var joinGameValue = parseInt(document.getElementById("joinGameValue").value);
+    var joinGameNumber = parseInt(document.getElementById("joinGameNumber").value)
+
+    App.contracts.TicTacToe.deployed().then(function (instance) {
+      instance.joinGame(joinGameNumber, { value: joinGameValue }).then(function () { });
+    });
+  },
+
+  handleSelectCell: function(numRow, numCol) {
+    Console.log("numRow :" + numRow)
+  } 
 
 };
 
